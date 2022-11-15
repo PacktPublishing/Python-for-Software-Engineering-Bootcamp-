@@ -1,0 +1,20 @@
+Fill in what the output would be to each of the following statements
+
+Questions for this assignment
+for i in range(5):
+
+    if i == 3:
+
+        continue
+
+    print(i)
+
+x = 0
+
+while x < 4:
+
+    x += 1
+
+    print(x)
+
+    break

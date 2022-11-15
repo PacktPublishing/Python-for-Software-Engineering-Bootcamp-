@@ -1,0 +1,61 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: ""
+      args:
+        - ENVIRONMENT=local
+    ports:
+      - "8080:8080"
+    entrypoint: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080", "--reload"]
+    volumes:
+      - ./app:/usr/src/app
+      - ./models:/usr/src/models
+    environment:
+      - db_postgres_host=postgresql://postgres:postgres@postgresdb:5432/postgres
+      - db_redis_host=redis://redis
+    depends_on:
+      - postgresdb
+      - redis
+
+  app-test:
+    build:
+      context: ""
+      args:
+        - ENVIRONMENT=test
+    volumes:
+      - .:/usr/src
+    entrypoint: ["sleep", "infinity"]
+    environment:
+      - db_postgres_host=postgresql://postgres:postgres@testingdb:5432/postgres
+      - app_env=test
+      - db_redis_host=redis://redistestdb
+    depends_on:
+      - testingdb
+      - redistestdb
+
+  postgresdb:
+    image: postgres:14.1-alpine
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env-local
+    volumes:
+      - pgdb:/var/lib/postgresql/data
+
+  testingdb:
+    image: postgres:14.1-alpine
+    env_file:
+      - .env-local
+
+  redis:
+    image: redis:6.2-alpine
+    ports:
+      - "6379:6379"
+
+  redistestdb:
+    image: redis:6.2-alpine
+
+volumes:
+  pgdb:

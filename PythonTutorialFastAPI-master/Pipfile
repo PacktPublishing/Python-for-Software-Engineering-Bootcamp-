@@ -1,0 +1,32 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = "*"
+uvicorn = "*"
+pydantic = "*"
+requests = "*"
+aiohttp = "*"
+sqlalchemy = "*"
+psycopg2-binary = "*"
+databases = {extras = ["postgresql"], version = "*"}
+aioredis = "*"
+python-snappy = "*"
+
+[dev-packages]
+mypy = "*"
+pytest = "*"
+pytest-asyncio = "*"
+responses = "*"
+aioresponses = "*"
+pytest-cov = "*"
+alembic = "*"
+isort = "*"
+black = "*"
+flake8 = "*"
+pre-commit = "*"
+
+[requires]
+python_version = "3.9"

@@ -1,0 +1,22 @@
+name: Application CI
+
+on:
+  push:
+    branches:
+      - "master"
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Build docker compose
+        run: docker-compose up -d app-test testingdb redistestdb
+      - name: Check lint
+        run: make check_lint_ci
+      - name: Run unit tests
+        run: make unit_tests_ci
+      - name: Take down containers
+        run: make stop
